@@ -45,7 +45,7 @@ func runSpace(cs, ns [][]int8, h, w int) {
 		ns[y] = make([]int8, w)
 		for x := 1; x < w-1; x++ {
 			currentCell := cs[y][x]
-			neighbors := cs[y-1][x-1] + cs[y-1][x] + cs[y-1][x+1] + cs[y][x-1] + cs[y][x] + cs[y][x+1] + cs[y+1][x-1] + cs[y+1][x] + cs[y+1][x+1]
+			neighbors := cs[y-1][x-1] + cs[y-1][x] + cs[y-1][x+1] + cs[y][x-1] + cs[y][x+1] + cs[y+1][x-1] + cs[y+1][x] + cs[y+1][x+1]
 			if currentCell == 0 {
 				if neighbors == 3 {
 					ns[y][x] = 1
