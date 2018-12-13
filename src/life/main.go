@@ -10,10 +10,6 @@ import (
 func main() {
 	h, w := 150, 600
 
-	space1 := make([][]int8, h)
-	for y := 0; y < h; y++ {
-		space1[y] = make([]int8, w)
-	}
 	space2 := make([][]int8, h)
 	for y := 0; y < h; y++ {
 		space2[y] = make([]int8, w)
@@ -21,21 +17,33 @@ func main() {
 
 	rand.Seed(time.Now().UnixNano())
 
-	for y := 0; y < h; y++ {
-		for x := 0; x < w; x++ {
-			space1[y][x] = int8(rand.Intn(2))
-		}
-	}
-
-	currentSpace := space1
+	currentSpace := genSpace(h, w)
 	nextSpace := space2
 
+	t := time.Now().Add(time.Minute)
 	for {
 		printSpace(currentSpace, h, w)
 		runSpace(currentSpace, nextSpace, h, w)
 		currentSpace, nextSpace = nextSpace, currentSpace
 		time.Sleep(time.Millisecond * 50)
+		if time.Now().After(t) {
+			t = time.Now().Add(time.Minute)
+			currentSpace = genSpace(h, w)
+		}
 	}
+}
+
+func genSpace(h, w int) [][]int8 {
+	space1 := make([][]int8, h)
+	for y := 0; y < h; y++ {
+		space1[y] = make([]int8, w)
+	}
+	for y := 0; y < h; y++ {
+		for x := 0; x < w; x++ {
+			space1[y][x] = int8(rand.Intn(2))
+		}
+	}
+	return space1
 }
 
 func runSpace(cs, ns [][]int8, h, w int) {
