@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	h, w := 150, 600
+	h, w := 80, 200
 
 	space2 := make([][]int8, h)
 	for y := 0; y < h; y++ {
