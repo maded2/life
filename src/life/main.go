@@ -4,12 +4,15 @@ import (
 	"fmt"
 	"math/rand"
 	"strings"
+	"syscall/js"
 	"time"
 )
 
 func main() {
 	h, w := 80, 200
 
+	f := js.Global().Get("setSize")
+	f.Invoke(w, h)
 	space2 := make([][]int8, h)
 	for y := 0; y < h; y++ {
 		space2[y] = make([]int8, w)
@@ -22,7 +25,8 @@ func main() {
 
 	t := time.Now().Add(time.Minute)
 	for {
-		printSpace(currentSpace, h, w)
+		//printSpace(currentSpace, h, w)
+		drawSpace(currentSpace, h, w)
 		runSpace(currentSpace, nextSpace, h, w)
 		currentSpace, nextSpace = nextSpace, currentSpace
 		time.Sleep(time.Millisecond * 50)
@@ -84,4 +88,17 @@ func printSpace(space [][]int8, h, w int) {
 	}
 	sb.WriteString("\n")
 	fmt.Print(sb.String())
+}
+
+func drawSpace(space [][]int8, h, w int) {
+	f1 := js.Global().Get("clearScreen")
+	f1.Invoke("")
+	f2 := js.Global().Get("drawCell")
+	for y := 0; y < h; y++ {
+		for x := 0; x < w; x++ {
+			if space[y][x] == 1 {
+				f2.Invoke(x, y)
+			}
+		}
+	}
 }
