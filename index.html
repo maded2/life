@@ -10,7 +10,7 @@
     </style>
 </head>
 
-<body>
+<body onresize="windowResized()">
 <canvas></canvas>
 
 <script src="wasm_exec.js"></script>
@@ -48,14 +48,18 @@
 
     function clearScreen() {
         c.clearRect(0, 0, innerWidth, innerHeight);
-        console.log("clear screen");
+        // console.log("clear screen");
     }
 
     function drawCell(x, y) {
         c.beginPath();
         c.arc(x*8, y*8, 4, 0, Math.PI * 2, false);
         c.stroke();
-        console.log("draw cell");
+        // console.log("draw cell");
+    }
+
+    function windowResized() {
+        resize(innerWidth, innerHeight);
     }
 </script>
 

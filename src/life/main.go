@@ -8,8 +8,12 @@ import (
 	"time"
 )
 
+var gen = false
+
 func main() {
 	h, w := 80, 200
+
+	registerCallbacks()
 
 	f := js.Global().Get("setSize")
 	f.Invoke(w, h)
@@ -30,11 +34,23 @@ func main() {
 		runSpace(currentSpace, nextSpace, h, w)
 		currentSpace, nextSpace = nextSpace, currentSpace
 		time.Sleep(time.Millisecond * 50)
-		if time.Now().After(t) {
+		if time.Now().After(t) || gen {
 			t = time.Now().Add(time.Minute)
 			currentSpace = genSpace(h, w)
+			gen = false
 		}
 	}
+}
+
+func registerCallbacks() {
+	js.Global().Set("resize", js.NewCallback(resize))
+}
+
+func resize(i []js.Value) {
+	w := i[0].Int()
+	h := i[1].Int()
+	println(fmt.Sprintf("w=%d, h=%d", w, h))
+	gen = true
 }
 
 func genSpace(h, w int) [][]int8 {
