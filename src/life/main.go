@@ -1,3 +1,5 @@
+// GOOS=js GOARCH=wasm go build -o life.wasm src/life/main.go
+
 package main
 
 import (
